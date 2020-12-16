@@ -141,6 +141,14 @@
   .Container{
     height: 70%;
     width:95%;
+    .Content{
+      .LineArrowRight{
+        display: none;
+      }
+      .LineArrowLeft{
+        display: none;
+      }
+    }
   }
 
 }
@@ -151,6 +159,7 @@
     .Content{
       height: 90%;
     }
+
   }
 }
 
