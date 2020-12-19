@@ -1,21 +1,45 @@
 import React, {useEffect, useState} from 'react'
 import * as CSS from 'csstype';
 import './CarouselStyle.scss'
-import {WindowDimensionsType} from "../../App";
 import {Paginator} from "./Paginator/Paginator";
 import {Counter} from "./Counter/Counter";
 import {Slider} from "./Slider/Slider";
 
+function getWindowDimensions() {
+    const {innerWidth: width, innerHeight: height} = window;
+    return {width, height};
+}
 
 type CarouselPropsType = {
     ContentData: Array<any>
-    WindowDimensions: WindowDimensionsType
-    Paginator:boolean
-    Counter:boolean
+    Paginator: boolean
+    Counter: boolean
+}
+type WindowDimensionsType = {
+    width: number
+    height: number
 }
 
+
 function Carousel(props: CarouselPropsType) {
-    console.log('размеры экрана',props.WindowDimensions)
+
+    /// resize function
+
+    const [windowDimensions, setWindowDimensions] = useState<WindowDimensionsType>(getWindowDimensions());
+
+    useEffect(() => {
+        function handleResize() {
+            setWindowDimensions(getWindowDimensions());
+        }
+
+        window.addEventListener('resize', handleResize);
+        return () => {
+            window.removeEventListener('resize', handleResize)
+        }
+    }, [windowDimensions]);
+
+    ///
+
     const [currentPicture, setCurrentPicture] = useState(0)
     const [animation, setAnimation] = useState(false)
     const [scroll, setScroll] = useState(1)
@@ -23,19 +47,18 @@ function Carousel(props: CarouselPropsType) {
 
     let mainPictureDimensions: WindowDimensionsType = {width: 0, height: 0}
 
-    if (props.WindowDimensions.width > 1200) {
+    if (windowDimensions.width > 1200) {
         mainPictureDimensions = {width: 40, height: 65}
-    } else if (props.WindowDimensions.width > 992 && props.WindowDimensions.width < 1199) {
+    } else if (windowDimensions.width > 992 && windowDimensions.width < 1199) {
         mainPictureDimensions = {width: 40, height: 70}
-    } else if (props.WindowDimensions.width >= 768 && props.WindowDimensions.width < 991) {
+    } else if (windowDimensions.width >= 768 && windowDimensions.width < 991) {
         mainPictureDimensions = {width: 60, height: 70}
-    } else if (props.WindowDimensions.width < 767) {
+    } else if (windowDimensions.width < 767) {
         mainPictureDimensions = {width: 75, height: 65}
     }
-    if (props.WindowDimensions.height < 400) {
+    if (windowDimensions.height < 400) {
         mainPictureDimensions = {width: 35, height: 65}
-    }
-    else if (props.WindowDimensions.height < 500) {
+    } else if (windowDimensions.height < 500) {
         mainPictureDimensions = {width: 40, height: 65}
     }
 
@@ -73,11 +96,11 @@ function Carousel(props: CarouselPropsType) {
     let [styleOfPicture4, setStyleOfPicture4] = useState<CSS.Properties>(style4)
     let [styleOfPicture5, setStyleOfPicture5] = useState<CSS.Properties>(style5)
 
-    useEffect(()=>{
-        if(styleOfPicture3.width !== style3.width || styleOfPicture3.height !== style3.height ){
-           setStyleOfPicture3(style3)
+    useEffect(() => {
+        if (styleOfPicture3.width !== style3.width || styleOfPicture3.height !== style3.height) {
+            setStyleOfPicture3(style3)
         }
-    },[props.WindowDimensions])
+    }, [windowDimensions])
 
     const setStyles = (type: "default" | "next" | "previous" | "search" | "searchDefault") => {
         switch (type) {

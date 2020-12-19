@@ -1,12 +1,12 @@
 {
-  "name": "scandiweb",
+  "name": "react-vanilla-carousel",
   "version": "1.0.0",
   "description": "",
   "main": "index.tsx",
   "scripts": {
     "start": "webpack serve"
   },
-  "author": "Kazak Ivan",
+  "author": "https://github.com/Keizak",
   "license": "ISC",
   "devDependencies": {
     "@babel/core": "^7.12.3",

@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React from 'react'
 import {Slide} from "./Slide/Slide";
 import * as CSS from "csstype";
 
