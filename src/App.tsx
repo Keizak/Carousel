@@ -28,14 +28,13 @@ function getWindowDimensions() {
     return {width, height};
 }
 
+
 export type WindowDimensionsType = {
     width: number
     height: number
 }
 
 function App() {
-    const [windowDimensions, setWindowDimensions] = useState<WindowDimensionsType>(getWindowDimensions());
-
     const ArrayPhoto = [
         {urlPicture: pic1, id: 'ncvsbf'},
         {urlPicture: pic2, id: 'gfdgfgsdg'},
@@ -48,19 +47,21 @@ function App() {
         {urlPicture: pic9, id: 'gdhgshtsgfhdgf'},
         {urlPicture: pic10, id: 'ngfsnbgfsngnf'},
     ]
+    const [windowDimensions, setWindowDimensions] = useState<WindowDimensionsType>(getWindowDimensions());
 
     useEffect(() => {
         function handleResize() {
             setWindowDimensions(getWindowDimensions());
         }
-
         window.addEventListener('resize', handleResize);
-        return () => window.removeEventListener('resize', handleResize);
-    }, []);
+        return () => {
+            window.removeEventListener('resize', handleResize)
+        }
+    }, [windowDimensions]);
 
     return (
         <div className={"mainContainer"}>
-            <Carousel WindowDimensions={windowDimensions} ContentData={ArrayPhoto}/>
+            <Carousel WindowDimensions={windowDimensions} ContentData={ArrayPhoto} Paginator={true} Counter={true}/>
         </div>
     )
 }

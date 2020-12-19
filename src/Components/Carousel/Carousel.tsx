@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import * as CSS from 'csstype';
 import './CarouselStyle.scss'
 import {WindowDimensionsType} from "../../App";
@@ -10,15 +10,19 @@ import {Slider} from "./Slider/Slider";
 type CarouselPropsType = {
     ContentData: Array<any>
     WindowDimensions: WindowDimensionsType
+    Paginator:boolean
+    Counter:boolean
 }
 
 function Carousel(props: CarouselPropsType) {
+    console.log('размеры экрана',props.WindowDimensions)
     const [currentPicture, setCurrentPicture] = useState(0)
     const [animation, setAnimation] = useState(false)
     const [scroll, setScroll] = useState(1)
     const [error, setError] = useState(false)
 
     let mainPictureDimensions: WindowDimensionsType = {width: 0, height: 0}
+
     if (props.WindowDimensions.width > 1200) {
         mainPictureDimensions = {width: 40, height: 65}
     } else if (props.WindowDimensions.width > 992 && props.WindowDimensions.width < 1199) {
@@ -28,6 +32,14 @@ function Carousel(props: CarouselPropsType) {
     } else if (props.WindowDimensions.width < 767) {
         mainPictureDimensions = {width: 75, height: 65}
     }
+    if (props.WindowDimensions.height < 400) {
+        mainPictureDimensions = {width: 35, height: 65}
+    }
+    else if (props.WindowDimensions.height < 500) {
+        mainPictureDimensions = {width: 40, height: 65}
+    }
+
+
 
     const templateStyle: CSS.Properties = {
         position: "absolute",
@@ -61,6 +73,11 @@ function Carousel(props: CarouselPropsType) {
     let [styleOfPicture4, setStyleOfPicture4] = useState<CSS.Properties>(style4)
     let [styleOfPicture5, setStyleOfPicture5] = useState<CSS.Properties>(style5)
 
+    useEffect(()=>{
+        if(styleOfPicture3.width !== style3.width || styleOfPicture3.height !== style3.height ){
+           setStyleOfPicture3(style3)
+        }
+    },[props.WindowDimensions])
 
     const setStyles = (type: "default" | "next" | "previous" | "search" | "searchDefault") => {
         switch (type) {
@@ -146,9 +163,10 @@ function Carousel(props: CarouselPropsType) {
                         setPreviousPicture={setPreviousPicture} setNextPicture={setNextPicture}/>
                 <div className={"LineArrowRight"} onClick={animation ? null : () => setNextPicture(currentPicture)}/>
             </div>
-            <Counter startValue={currentPicture + 1} maxValue={props.ContentData.length}/>
-            <Paginator maxValue={props.ContentData.length} setCurrentPicture={setCurrentPicture} setError={setError}
-                       setStyles={setStyles}/>
+            {props.Counter ? <Counter startValue={currentPicture + 1} maxValue={props.ContentData.length}/> : null}
+            {props.Paginator ? <Paginator maxValue={props.ContentData.length} setCurrentPicture={setCurrentPicture} setError={setError}
+                                          setStyles={setStyles}/> : null}
+
             {error ? <div className={"error"}>Picture not found</div> : <div className={"error"}/>}
         </div>
     )

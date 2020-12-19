@@ -14,9 +14,10 @@ export const Paginator = (props: PaginatorPropsType) => {
     const [findPicture, setFindPicture] = useState("")
 
     const findHandler = (value: string) => {
-        if (Number(value) > props.maxValue) {
+        if (Number(value) > props.maxValue  || Number(value) < 1){
             props.setError(true)
-        } else {
+        }
+        else {
             props.setError(false)
             props.setStyles("search")
             setTimeout(() => {
