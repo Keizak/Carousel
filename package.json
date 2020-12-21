@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.tsx",
   "scripts": {
-    "start": "webpack serve"
+    "start": "webpack serve",
+    "build": "tsc -p ."
   },
   "author": "https://github.com/Keizak",
   "license": "ISC",

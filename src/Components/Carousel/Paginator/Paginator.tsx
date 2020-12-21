@@ -4,7 +4,7 @@ import React, {useState} from 'react'
 type PaginatorPropsType = {
     maxValue: number // length Array of pictures
     setError: (value: boolean) => void
-    setStyles: (value: string) => void
+    setStyles: (type: "default" | "next" | "previous" | "search" | "searchDefault") => void
     setCurrentPicture: (value: number) => void
 }
 

@@ -11,17 +11,21 @@ function getWindowDimensions() {
 }
 
 type CarouselPropsType = {
-    ContentData: Array<any>
+    ContentData: Array<ContentDataType>
     Paginator: boolean
     Counter: boolean
+    Mode: "img" | "block"
 }
 type WindowDimensionsType = {
     width: number
     height: number
 }
+type ContentDataType = {
+    content: any // img or jsx
+    id: string
+}
 
-
-function Carousel(props: CarouselPropsType) {
+export function Carousel(props: CarouselPropsType) {
 
     /// resize function
 
@@ -61,8 +65,6 @@ function Carousel(props: CarouselPropsType) {
     } else if (windowDimensions.height < 500) {
         mainPictureDimensions = {width: 40, height: 65}
     }
-
-
 
     const templateStyle: CSS.Properties = {
         position: "absolute",
@@ -183,7 +185,7 @@ function Carousel(props: CarouselPropsType) {
                         styleOfPicture1={styleOfPicture1} styleOfPicture2={styleOfPicture2}
                         styleOfPicture3={styleOfPicture3}
                         styleOfPicture4={styleOfPicture4} styleOfPicture5={styleOfPicture5}
-                        setPreviousPicture={setPreviousPicture} setNextPicture={setNextPicture}/>
+                        setPreviousPicture={setPreviousPicture} setNextPicture={setNextPicture} Mode={props.Mode}/>
                 <div className={"LineArrowRight"} onClick={animation ? null : () => setNextPicture(currentPicture)}/>
             </div>
             {props.Counter ? <Counter startValue={currentPicture + 1} maxValue={props.ContentData.length}/> : null}
